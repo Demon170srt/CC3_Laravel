@@ -6,6 +6,23 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
+//use Illuminate\Support\Facades\App;
+
+use Illuminate\Support\Facades\Log;
+
+Route::get('/changeLocale/{locale}', function (string $locale) {
+    Log::info('Attempting to change locale to: ' . $locale);
+    if (in_array($locale, ['en', 'es', 'fr', 'ar'])) {
+        Log::info('Locale before setting: ' . session('locale'));
+        session()->put('locale', $locale);
+       // App::setLocale($locale);
+       // app()->setLocale($locale);
+        // session()->save(); // Rely on StartSession middleware to save
+        Log::info('Locale after setting: ' . session('locale'));
+    }
+    return redirect()->back();
+});
+
 
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 Route::get('/customers', [DashboardController::class, 'customers'])->name('customers.index');
@@ -31,7 +48,7 @@ Route::get('/api/products-by-store/{store}', [DashboardController::class, 'getPr
 Route::get('/orders', [DashboardController::class, 'orders'])->name('orders.index');
 
 // Customer routes
-Route::get('/customers', [CustomerController::class, 'index'])->name('customers.index');
+//Route::get('/customers', [CustomerController::class, 'index'])->name('customers.index');
 Route::get('/customers/create', [CustomerController::class, 'create'])->name('customers.create');
 Route::post('/customers', [CustomerController::class, 'store'])->name('customers.store');
 Route::get('/customers/{customer}/edit', [CustomerController::class, 'edit'])->name('customers.edit');
@@ -49,5 +66,12 @@ Route::get('/api/customers/{customer}/orders', [OrderController::class, 'getCust
 
 // Order details route
 Route::get('/api/orders/{order}/details', [OrderController::class, 'getOrderDetails'])->name('orders.details');
+
+Route::get('/ordered-products', [App\Http\Controllers\ProductOrderController::class, 'index'])->name('ordered.products');
+Route::get('/same-products-customers', [App\Http\Controllers\CustomerController::class, 'sameProductsCustomers'])->name('same.products.customers');
+Route::get('products/orders-count', [ProductController::class, 'ordersCount'])->name('products.orders_count');
+Route::get('/products-more-than-6-orders', [App\Http\Controllers\ProductController::class, 'productsMoreThan6Orders'])->name('products.more_than_6_orders');
+Route::get('/order-totals', [App\Http\Controllers\OrderController::class, 'orderTotals'])->name('orders.totals');
+Route::get('/orders-greater-than-60', [OrderController::class, 'ordersGreaterThanOrder60'])->name('orders.greater_than_60');
 
 

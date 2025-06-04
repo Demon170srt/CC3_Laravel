@@ -21,20 +21,20 @@ class CustomerRequest extends FormRequest
     public function rules(): array
     {
         $rules = [
-            'first_name' => 'required|string|max:255',
+            'first_name' => 'required|string|min:3|max:255',
             'last_name' => 'required|string|max:255',
             'email' => 'required|email',
             'phone' => 'required|string|max:20',
             'address' => 'required|string|max:255',
         ];
-        
+
         // Add the unique rule with customer ID exception for updates
         if ($this->customer) {
             $rules['email'] .= '|unique:customers,email,' . $this->customer->id;
         } else {
             $rules['email'] .= '|unique:customers,email';
         }
-        
+
         return $rules;
     }
 }

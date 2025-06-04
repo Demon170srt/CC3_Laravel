@@ -17,7 +17,7 @@
         <div class="card-body">
             <div class="row mb-4">
                 <div class="col-md-6">
-                    <select id="store-select" class="form-select">
+                    <select id="store-select"  class="form-select">
                         <option value="">Select a Store</option>
                         @foreach($stores as $store)
                             <option value="{{ $store->id }}">{{ $store->name }}</option>

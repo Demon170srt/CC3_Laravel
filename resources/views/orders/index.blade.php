@@ -105,12 +105,12 @@
         $('#customer-search-form').on('submit', function(e) {
             e.preventDefault();
             const searchTerm = $('#customer-search').val();
-            $('#lstOrders').empty();
+            $('#lstOrders').html('');
             $('#orderDetails').empty();
 
             axios.get(`/api/customers/search/${searchTerm}`)
                 .then(response => {
-                    displayCustomers(response.data.customers);
+                    displayCustomers(response.data);
                 });
         });
     });

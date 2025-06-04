@@ -221,7 +221,7 @@
                 $('.d-flex.justify-content-center.mt-4').html(paginationHtml);
 
                 // Reattach event handlers
-                attachEventHandlers();
+
             },
             error: function(xhr) {
                 console.error('Error loading products:', xhr);
@@ -229,57 +229,14 @@
         });
     }
 
-    function attachEventHandlers() {
-        // Handle edit product button click
-        $('.edit-product').on('click', function() {
-            let productId = $(this).data('id');
-
-            $.ajax({
-                url: `/api/products/${productId}`,
-                type: 'GET',
-                success: function(product) {
-                    $('#editProductId').val(product.id);
-                    $('#editName').val(product.name);
-                    $('#editDescription').val(product.description);
-                    $('#editPrice').val(product.price);
-                    $('#editCategoryId').val(product.category_id);
-                    $('#editSupplierId').val(product.supplier_id);
-                    $('#editProductForm').attr('action', `/products/${productId}`);
-                },
-                error: function(xhr) {
-                    console.error('Error fetching product data:', xhr);
-                }
-            });
-        });
-
-        // Handle delete product button click
-        $('.delete-product').on('click', function() {
-            let productId = $(this).data('id');
-            let productName = $(this).data('name');
-
-            $('#deleteProductId').val(productId);
-            $('#productName').text(productName);
-            $('#deleteProductForm').attr('action', `/products/${productId}`);
-        });
-
-        // Handle pagination clicks
-        $('.pagination .page-link').on('click', function(e) {
-            e.preventDefault();
-            let page = $(this).data('page');
-            let search = $('#searchInput').val();
-            loadProducts(page, search);
-        });
-    }
-
     // Handle search
-    let searchTimeout;
-    $('#searchInput').on('keyup', function() {
-        clearTimeout(searchTimeout);
-        let search = $(this).val();
 
-        searchTimeout = setTimeout(function() {
+    $('#searchInput').on('keypress', function(e) {
+       if (e.which===13)
+       {
+            let search = $(this).val();
             loadProducts(1, search);
-        }, 500);
+       }
     });
 
     $('#searchButton').on('click', function() {

@@ -106,10 +106,10 @@
                         @endif
 
                         <!-- Pagination Elements -->
-                        @for ($i = 1; $i <= $customers->lastPage(); $i++)
-                            <li class="page-item {{ ($customers->currentPage() == $i) ? 'active' : '' }}">
-                                <a class="page-link" href="{{ $customers->url($i) }}">{{ $i }}</a>
-                            </li>
+                            @for ($i = 1; $i <= $customers->lastPage(); $i++)
+                                <li class="page-item {{ ($customers->currentPage() == $i) ? 'active' : '' }}">
+                                    <a class="page-link" href="{{ $customers->url($i) }}">{{ $i }}</a>
+                                </li>
                             @endfor
 
                             <!-- Next Page Link -->
@@ -136,8 +136,8 @@
 @push('scripts')
 <script>
     $(document).ready(function() {
-        $('#customerSearch').on('keypress', function(e) {
-            if (e.which === 13) { // Enter key
+        $('#customerSearch').on('keyup', function(e) {
+           // if (e.which === 13) { // Enter key
                 var searchTerm = $(this).val();
 
                 if(searchTerm.length > 0) {
@@ -205,7 +205,7 @@
                     // If search field is empty, reload the original data with pagination
                     window.location.href = '{{ route("customers.index") }}';
                 }
-            }
+           // }
     });
 
     // Function to update pagination based on response data

@@ -43,7 +43,7 @@
                         <select class="form-select" id="supplier_id" name="supplier_id" required>
                             <option value="">Select Supplier</option>
                             @foreach($suppliers as $supplier)
-                                <option value="{{ $supplier->id }}">{{ $supplier->name }}</option>
+                                <option value="{{ $supplier->id }}">{{ $supplier->first_name }} {{ $supplier->last_name }}</option>
                             @endforeach
                         </select>
                         <div class="invalid-feedback"></div>
@@ -71,6 +71,9 @@ $(document).ready(function() {
         e.preventDefault();
         let form = $(this);
         let formData = new FormData(this);
+//il faut ajouter ici un controle coté client
+//...
+
 
         $.ajax({
             url: form.attr('action'),
@@ -80,6 +83,11 @@ $(document).ready(function() {
             contentType: false,
             success: function(response) {
                 $('#createProductModal').modal('hide');
+
+                //au lieu de recharger la page
+                //ça serais plus interessant de
+                //ajouter une ligne du nouveau produit
+                //  dans le tableau
                 window.location.reload();
             },
             error: function(xhr) {

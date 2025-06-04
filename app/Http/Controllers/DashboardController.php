@@ -19,9 +19,9 @@ class DashboardController extends Controller
 
     public function customers(): View
     {
-        return view('customers.index', [
-            'customers' => Customer::all()
-        ]);
+        $customers = Customer::paginate(10);
+       // dd($customers); //dump and dey;
+        return view('customers.index', compact('customers'));
     }
 
     public function suppliers(): View
@@ -50,6 +50,7 @@ class DashboardController extends Controller
 
         $products = Product::with(['stock','category'])
         ->where('supplier_id', $supplier->id)
+
         ->get();
         return view('products._products_by_supplier', compact('products'));
     }
